@@ -26,6 +26,7 @@ class CardPage extends StatefulWidget {
 class _CardPageState extends State<CardPage> {
   bool leftButton = true;
   bool rightButton = true;
+  bool isGuessed = false;
   int randomNumber = 1;
   int guessedTrue = 0;
   int guessedFalse = 0;
@@ -65,11 +66,12 @@ class _CardPageState extends State<CardPage> {
                   width: 60,
                   height: 34,
                   child: ElevatedButton(
-                    onPressed: rightButton
+                    onPressed: rightButton || isGuessed
                         ? null
                         : () => setState(() {
                               guessedTrue = guessedTrue + 1;
                               totalGuesses = totalGuesses + 1;
+                              isGuessed = true;
                             }),
                     style: ButtonStyle(
                         backgroundColor:
@@ -89,11 +91,12 @@ class _CardPageState extends State<CardPage> {
                   width: 60,
                   height: 34,
                   child: ElevatedButton(
-                    onPressed: rightButton
+                    onPressed: rightButton || isGuessed
                         ? null
                         : () => setState(() {
                               guessedFalse = guessedFalse + 1;
                               totalGuesses = totalGuesses + 1;
+                              isGuessed = true;
                             }),
                     style: ButtonStyle(
                         backgroundColor:
@@ -123,6 +126,7 @@ class _CardPageState extends State<CardPage> {
                         guessedTrue = 0;
                         guessedFalse = 0;
                         totalGuesses = 0;
+                        isGuessed = false;
                       });
                     },
                     style: ButtonStyle(
@@ -147,6 +151,7 @@ class _CardPageState extends State<CardPage> {
                       setState(() {
                         randomNumber = Random().nextInt(52) + 1;
                         rightButton = !rightButton;
+                        isGuessed = false;
                       });
                     },
                     style: ButtonStyle(
