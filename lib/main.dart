@@ -10,20 +10,20 @@ void main() {
           title: const Text('Guess the Card'),
           backgroundColor: Colors.deepPurple[900],
         ),
-        body: DicePage(),
+        body: const CardPage(),
       ),
     ),
   );
 }
 
-class DicePage extends StatefulWidget {
-  const DicePage({super.key});
+class CardPage extends StatefulWidget {
+  const CardPage({super.key});
 
   @override
-  State<DicePage> createState() => _DicePageState();
+  State<CardPage> createState() => _CardPageState();
 }
 
-class _DicePageState extends State<DicePage> {
+class _CardPageState extends State<CardPage> {
   bool leftButton = true;
   bool rightButton = true;
   int randomNumber = 1;
@@ -34,7 +34,7 @@ class _DicePageState extends State<DicePage> {
     if (totalGuesses == 0) {
       return '0.0%';
     }
-    double successRatio = guessedTrue / totalGuesses * 100;
+    double successRatio = (guessedTrue / totalGuesses) * 100;
     return '${successRatio.toStringAsFixed(1)}%';
   }
 
@@ -49,8 +49,8 @@ class _DicePageState extends State<DicePage> {
                 ? Image.asset('images/card.jpg')
                 : Image.asset('images/$randomNumber.png'),
           ),
-          Text('Did you guess the card?'),
-          SizedBox(
+          const Text('Did you guess the card?'),
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -68,10 +68,10 @@ class _DicePageState extends State<DicePage> {
                               guessedTrue = guessedTrue + 1;
                               totalGuesses = totalGuesses + 1;
                             }),
-                    child: Text('YES'),
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.green)),
+                    child: const Text('YES'),
                   ),
                 ),
               ),
@@ -89,10 +89,10 @@ class _DicePageState extends State<DicePage> {
                               guessedFalse = guessedFalse + 1;
                               totalGuesses = totalGuesses + 1;
                             }),
-                    child: Text('NO'),
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.red)),
+                    child: const Text('NO'),
                   ),
                 ),
               ),
@@ -116,12 +116,10 @@ class _DicePageState extends State<DicePage> {
                         totalGuesses = 0;
                       });
                     },
-                    child: Text('Restart'),
                     style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.deepPurple.shade900)),
-
-
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.deepPurple.shade900)),
+                    child: const Text('Restart'),
                   ),
                 ),
               ),
@@ -139,20 +137,20 @@ class _DicePageState extends State<DicePage> {
                         rightButton = !rightButton;
                       });
                     },
-                    child: Text(rightButton ? ' Show ' : 'Next'),
                     style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.deepPurple.shade900)),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.deepPurple.shade900)),
+                    child: Text(rightButton ? ' Show ' : 'Next'),
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Text('Your success ratio is ' + getSuccessRatio()),
-          SizedBox(
+          Text('Your success ratio is ${getSuccessRatio()}'),
+          const SizedBox(
             height: 10,
           ),
           Flexible(
@@ -162,17 +160,69 @@ class _DicePageState extends State<DicePage> {
               height: 34,
               child: ElevatedButton(
                 onPressed: () {
-
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ResultRoute()));
                 },
-                child: Text( 'See your result'),
                 style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.deepPurple.shade900)),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Colors.deepPurple.shade900)),
+                child: const Text('See your result'),
               ),
             ),
           ),
-
         ],
+      ),
+    );
+  }
+}
+
+class ResultRoute extends StatelessWidget {
+  const ResultRoute({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('Go Back'),
+        backgroundColor: Colors.deepPurple[900],
+      ),
+      body: Center(
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(8),
+          children: const [
+            Card(
+                child: ListTile(
+              leading: Image(image: AssetImage('images/result1.png')),
+              title: Text('0% to 1% '),
+              subtitle: Text(
+                  'You are taking your first steps into the world of card guessing. Do not  be discouraged by the low ratio. Every guess brings you closer to success!'),
+            )),
+            SizedBox(
+              height: 60,
+            ),
+            Card(
+                child: ListTile(
+              leading: Image(image: AssetImage('images/result2.png')),
+              title: Text('1% to 5% '),
+              subtitle: Text(
+                  'Well done, intermediates! You are making strides in this challenging game. Keep honing your skills, and you will soon be in the ranks of the experts!'),
+            )),
+            SizedBox(
+              height: 60,
+            ),
+            Card(
+                child: ListTile(
+              leading: Image(image: AssetImage('images/result3.png')),
+              title: Text('5% and above'),
+              subtitle: Text(
+                  'You are in the top tier of card guessers! Your consistent success ratio shows your exceptional ability. Keep aiming for perfection and inspire others!'),
+            )),
+          ],
+        ),
       ),
     );
   }
