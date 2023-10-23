@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+
 void main() {
   return runApp(
     MaterialApp(
@@ -8,6 +9,7 @@ void main() {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Guess the Card'),
+          centerTitle: true,
           backgroundColor: Colors.deepPurple[900],
         ),
         body: const CardPage(),
@@ -46,14 +48,19 @@ class _CardPageState extends State<CardPage> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-            child: rightButton
-                ? Image.asset('images/card.jpg')
-                : Image.asset('images/$randomNumber.png'),
+            child: AnimatedSwitcher(
+              duration: Duration (milliseconds: 500),
+                child: rightButton
+                    ? Image.asset('images/card.jpg', key: ValueKey('card'))
+                    : Image.asset('images/$randomNumber.png', key: ValueKey('random')),
+            )
+
           ),
-          const Text('Did you guess the card?',style: TextStyle(
-              fontFamily: " Indie FLower",
-              fontWeight: FontWeight.bold
-          ),),
+          const Text(
+            'Did you guess the card?',
+            style: TextStyle(
+                fontFamily: " Indie FLower", fontWeight: FontWeight.bold),
+          ),
           const SizedBox(
             height: 10,
           ),
@@ -63,7 +70,7 @@ class _CardPageState extends State<CardPage> {
               Flexible(
                 flex: 2,
                 child: SizedBox(
-                  width: 60,
+                  width: 70,
                   height: 34,
                   child: ElevatedButton(
                     onPressed: rightButton || isGuessed
@@ -76,10 +83,12 @@ class _CardPageState extends State<CardPage> {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.green)),
-                    child: const Text('YES', style: TextStyle(
-                        fontFamily: " Indie FLower",
-                      fontWeight: FontWeight.bold
-                    ),),
+                    child: const Text(
+                      'YES',
+                      style: TextStyle(
+                          fontFamily: " Indie FLower",
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -88,7 +97,7 @@ class _CardPageState extends State<CardPage> {
               Flexible(
                 flex: 2,
                 child: SizedBox(
-                  width: 60,
+                  width: 70,
                   height: 34,
                   child: ElevatedButton(
                     onPressed: rightButton || isGuessed
@@ -101,10 +110,12 @@ class _CardPageState extends State<CardPage> {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.red)),
-                    child: const Text('NO',style: TextStyle(
-                        fontFamily: " Indie FLower",
-                        fontWeight: FontWeight.bold
-                    ),),
+                    child: const Text(
+                      'NO',
+                      style: TextStyle(
+                          fontFamily: " Indie FLower",
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -117,7 +128,7 @@ class _CardPageState extends State<CardPage> {
               Flexible(
                 flex: 2,
                 child: SizedBox(
-                  width: 80,
+                  width: 90,
                   height: 34,
                   child: ElevatedButton(
                     onPressed: () {
@@ -132,10 +143,12 @@ class _CardPageState extends State<CardPage> {
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Colors.deepPurple.shade900)),
-                    child: const Text('Restart',style: TextStyle(
-                        fontFamily: " Indie FLower",
-                        fontWeight: FontWeight.bold
-                    ),),
+                    child: const Text(
+                      'Restart',
+                      style: TextStyle(
+                          fontFamily: " Indie FLower",
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -144,7 +157,7 @@ class _CardPageState extends State<CardPage> {
               Flexible(
                 flex: 2,
                 child: SizedBox(
-                  width: 80,
+                  width: 90,
                   height: 34,
                   child: ElevatedButton(
                     onPressed: () {
@@ -157,10 +170,12 @@ class _CardPageState extends State<CardPage> {
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Colors.deepPurple.shade900)),
-                    child: Text(rightButton ? ' Show ' : 'Next',style: const TextStyle(
+                    child: Text(
+                      rightButton ? ' Show ' : 'Next',
+                      style: const TextStyle(
                           fontFamily: " Indie FLower",
-                        fontWeight: FontWeight.bold
-                    ),),
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -169,17 +184,18 @@ class _CardPageState extends State<CardPage> {
           const SizedBox(
             height: 10,
           ),
-          Text('Your success ratio is ${getSuccessRatio()}',style: const TextStyle(
-              fontFamily: " Indie FLower",
-              fontWeight: FontWeight.w400
-          ),),
+          Text(
+            'Your success ratio is ${getSuccessRatio()}',
+            style: const TextStyle(
+                fontFamily: " Indie FLower", fontWeight: FontWeight.w400),
+          ),
           const SizedBox(
             height: 10,
           ),
           Flexible(
             flex: 2,
             child: SizedBox(
-              width: 130,
+              width: 140,
               height: 34,
               child: ElevatedButton(
                 onPressed: () {
@@ -191,10 +207,11 @@ class _CardPageState extends State<CardPage> {
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Colors.deepPurple.shade900)),
-                child: const Text('See your result',style: TextStyle(
-                    fontFamily: " Indie FLower",
-                    fontWeight: FontWeight.bold
-                ),),
+                child: const Text(
+                  'See your result',
+                  style: TextStyle(
+                      fontFamily: " Indie FLower", fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
@@ -223,15 +240,16 @@ class ResultRoute extends StatelessWidget {
             Card(
                 child: ListTile(
               leading: Image(image: AssetImage('images/result1.png')),
-              title: Text('0% to 1% ',style: TextStyle(
-                  fontFamily: " Indie FLower",
-                  fontWeight: FontWeight.bold
-              ),),
+              title: Text(
+                '0% to 1% ',
+                style: TextStyle(
+                    fontFamily: " Indie FLower", fontWeight: FontWeight.bold),
+              ),
               subtitle: Text(
-                  'You are taking your first steps into the world of card guessing. Do not  be discouraged by the low ratio. Every guess brings you closer to success!',style: TextStyle(
-                  fontFamily: " Indie FLower",
-                  color: Colors.black87
-              ),),
+                'You are taking your first steps into the world of card guessing. Do not  be discouraged by the low ratio. Every guess brings you closer to success!',
+                style: TextStyle(
+                    fontFamily: " Indie FLower", color: Colors.black87),
+              ),
             )),
             SizedBox(
               height: 60,
@@ -239,15 +257,18 @@ class ResultRoute extends StatelessWidget {
             Card(
                 child: ListTile(
               leading: Image(image: AssetImage('images/result2.png')),
-              title: Text('1% to 5% ',style: TextStyle(
-                  fontFamily: " Indie FLower",
-                  fontWeight: FontWeight.bold
-              ),),
+              title: Text(
+                '1% to 5% ',
+                style: TextStyle(
+                    fontFamily: " Indie FLower", fontWeight: FontWeight.bold),
+              ),
               subtitle: Text(
-                  'Well done, intermediates! You are making strides in this challenging game. Keep honing your skills, and you will soon be in the ranks of the experts!',style: TextStyle(
+                'Well done, intermediates! You are making strides in this challenging game. Keep honing your skills, and you will soon be in the ranks of the experts!',
+                style: TextStyle(
                   fontFamily: " Indie FLower",
                   color: Colors.black87,
-              ),),
+                ),
+              ),
             )),
             SizedBox(
               height: 60,
@@ -255,28 +276,33 @@ class ResultRoute extends StatelessWidget {
             Card(
                 child: ListTile(
               leading: Image(image: AssetImage('images/result3.png')),
-              title: Text('5% and above',style: TextStyle(
-                  fontFamily: " Indie FLower",
-                  fontWeight: FontWeight.bold
-              ),),
+              title: Text(
+                '5% and above',
+                style: TextStyle(
+                    fontFamily: " Indie FLower", fontWeight: FontWeight.bold),
+              ),
               subtitle: Text(
-                  'You are in the top tier of card guessers! Your consistent success ratio shows your exceptional ability. Keep aiming for perfection and inspire others!',style: TextStyle(
+                'You are in the top tier of card guessers! Your consistent success ratio shows your exceptional ability. Keep aiming for perfection and inspire others!',
+                style: TextStyle(
                   fontFamily: " Indie FLower",
                   color: Colors.black87,
-              ),),
-
+                ),
+              ),
             )),
             SizedBox(
               height: 60,
             ),
             Padding(
               padding: EdgeInsets.all(8.0),
-              child: Text('Each practice session brings you closer to perfection. Stay committed to your training, and you will achieve great results!', style: TextStyle(
-                fontFamily: 'Caveat',
-                fontSize: 21,
-                color: Colors.black54,
-                fontWeight: FontWeight.bold,
-              ),),
+              child: Text(
+                'Each practice session brings you closer to perfection. Stay committed to your training, and you will achieve great results!',
+                style: TextStyle(
+                  fontFamily: 'Caveat',
+                  fontSize: 21,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             )
           ],
         ),
